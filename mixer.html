@@ -1202,15 +1202,10 @@
 		console.warn(msg);
 	}
 	function log(msg) {
-		try {
-			const stack = new Error().stack;
-			const callerLine = stack.split("\n")[2]; // Get the second line of the stack trace
-			const lineMatch = callerLine.match(/:(\d+)(?::\d+)?(?:\)?$)/); // More flexible regex
-			const lineNumber = lineMatch ? lineMatch[1] : "unknown";
-			console.log(msg, "Line: " + lineNumber);
-		} catch (e) {
-			console.log(msg, "Line: unknown"); // Fallback if anything fails
-		}
+		const stack = new Error().stack;
+		const callerLine = stack.split("\n")[2]; // Get the second line of the stack trace
+		const lineNumber = callerLine.match(/:(\d+):\d+\)?$/)[1]; // Extract the line number
+		console.log(msg, "Line: "+ lineNumber);
 	}
 	
 	function getById(id){
@@ -2877,7 +2872,7 @@
 						if (!idx){
 							var ele = document.getElementById("automix");
 						} else {
-							var ele = document.querySelectorAll("#containermenu .canvasContainer")[idx];
+							var ele = document.querySelectorAll("#containermenu .canvasContainer")[idx-1];
 						}
 						
 						var layoutButtons = document.querySelectorAll(".pressed");
