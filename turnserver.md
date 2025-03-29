@@ -23,6 +23,9 @@ WebRTC tries to establish peer-to-peer connections using the following methods, 
 The installer script automates the complete TURN server setup process:
 
 ```bash
+sudo apt-get install
+sudo apt-get upgrade
+
 # Download the installer
 wget https://raw.githubusercontent.com/steveseguin/vdo.ninja/develop/turnserver_install.sh.sample
 mv turnserver_install.sh.sample turnserver_install.sh
@@ -39,6 +42,8 @@ The installer will:
 4. Optionally configure SSL/TLS support
 5. Create systemd service for auto-start
 6. Configure proper permissions
+
+Note: You may need to configure your firewall first for Certbot to work, and I recommend running `apt update` and `apt upgrade` first.
 
 ## Basic Configuration Explained
 

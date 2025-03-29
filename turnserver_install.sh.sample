@@ -20,6 +20,13 @@ setup_permissions() {
     chmod 600 /etc/coturn/certs/*.pem
 }
 
+wait_for_apt() {
+    while fuser /var/lib/dpkg/lock >/dev/null 2>&1 || fuser /var/lib/apt/lists/lock >/dev/null 2>&1 || fuser /var/cache/apt/archives/lock >/dev/null 2>&1 || fuser /var/lib/dpkg/lock-frontend >/dev/null 2>&1; do
+        echo "Waiting for other apt processes to finish..."
+        sleep 5
+    done
+}
+
 configure_ssl() {
     local DOMAIN=$1
     
@@ -32,6 +39,8 @@ configure_ssl() {
     
     # Install certbot if needed
     if ! command -v certbot >/dev/null; then
+        echo "Installing certbot..."
+        wait_for_apt
         apt-get install certbot -y
     fi
     
